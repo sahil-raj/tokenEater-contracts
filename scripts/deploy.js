@@ -13,8 +13,8 @@ async function main() {
   // Deploy PoolFactory
   const PoolFactory = await ethers.getContractFactory("PoolFactory");
 
-  // Deploy with deployer as initial owner
-  const poolFactory = await PoolFactory.deploy(deployer.address);
+  // Deploy without constructor arguments
+  const poolFactory = await PoolFactory.deploy();
 
   await poolFactory.waitForDeployment();
 
