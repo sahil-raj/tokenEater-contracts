@@ -10,23 +10,33 @@ async function main() {
     (await deployer.provider.getBalance(deployer.address)).toString()
   );
 
-  // Deploy PoolFactory
-  const PoolFactory = await ethers.getContractFactory("PoolFactory");
+  // Deploy TokenPool
+  const TokenPool = await ethers.getContractFactory(
+    "contracts/TokenPool.sol:TokenPool"
+  );
 
-  // Deploy without constructor arguments
-  const poolFactory = await PoolFactory.deploy();
+  const lockTimestamp = Math.floor(Date.now() / 1000) + 60 * 60;
 
-  await poolFactory.waitForDeployment();
+  // Deploy with constructor arguments
+  const tokenPool = await TokenPool.deploy(
+    "pool-1", // poolId
+    deployer.address, // owner
+    lockTimestamp // lockTimestamp
+  );
 
-  const address = await poolFactory.getAddress();
-  console.log("PoolFactory deployed to:", address);
+  await tokenPool.waitForDeployment();
+
+  const address = await tokenPool.getAddress();
+  console.log("TokenPool deployed to:", address);
 
   // Verify deployment
   console.log("Verifying contract...");
-  console.log("Owner:", await poolFactory.owner());
+  console.log("Owner:", await tokenPool.owner());
+  console.log("Pool ID:", await tokenPool.poolId());
+  console.log("Lock Timestamp:", await tokenPool.lockTimestamp());
 
   return {
-    poolFactory: address,
+    tokenPool: address,
   };
 }
 
