@@ -15,7 +15,7 @@ async function main() {
     "contracts/TokenPool.sol:TokenPool"
   );
 
-  const lockTimestamp = Math.floor(Date.now() / 1000) + 60 * 60;
+  const lockTimestamp = Math.floor(Date.now() / 1000) + 24 * 60 * 60;
 
   // Deploy with constructor arguments
   const tokenPool = await TokenPool.deploy(
@@ -50,3 +50,5 @@ main()
     console.error("Deployment failed:", error);
     process.exit(1);
   });
+
+// latest deploy: 0xbA6D779Ebf3EADA6c805c29215751004dBDa46ef
